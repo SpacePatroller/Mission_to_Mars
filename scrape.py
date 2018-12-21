@@ -30,6 +30,12 @@ def scrape():
     news_p = soup.find(class_='rollover_description_inner').text
     print(news_p)
 
+    nasa_news = {}
+    nasa_news["news_title"] = news_title
+    nasa_news["news_p"]= news_p
+
+    print(nasa_news)
+
     #Visit the url for JPL Featured Space Image here.
     url = 'https://www.jpl.nasa.gov/spaceimages/?search=&category=Mars'
     browser.visit(url)

@@ -11,22 +11,20 @@ mongo = PyMongo(app)
 # Or set inline
 # mongo = PyMongo(app, uri="mongodb://localhost:27017/craigslist_app")
 
-
-# Am I missing a step? How does the dictionary from the scrape file get connect with the mongo.db?
-
 @app.route("/")
 def index():
-    listings = mongo.db.hemisphere_image_urls.find_one()
-    return render_template("index.html", listings=listings)
-
+    listings = mongo.db.listings.find_one()
+    return render_template("mars_index.html", listings=listings)
 
 @app.route("/scrape")
 def scraper():
+    # create mongo db named mars
     listings = mongo.db.listings
-    listings_data = scrape_craigslist.scrape()
+    # call scrape.py and assign returned dict to variable mars_data
+    listings_data = scrape.scrape()
+    # update mars 
     listings.update({}, listings_data, upsert=True)
     return redirect("/", code=302)
-
 
 if __name__ == "__main__":
     app.run(debug=True)

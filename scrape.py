@@ -7,7 +7,7 @@ import re
 
 
 def init_browser():
-    executable_path = {'executable_path': 'chromedriver.exe'}
+    executable_path = {'executable_path': '/usr/local/bin/chromedriver'}
     return Browser('chrome', **executable_path, headless=False)
 
 
@@ -26,15 +26,15 @@ def scrape():
     soup = BeautifulSoup(response.text, 'html.parser')
 
     news_title = soup.find(class_='content_title').text
-    print(news_title)
+    # print(news_title)
     news_p = soup.find(class_='rollover_description_inner').text
-    print(news_p)
+    # print(news_p)
 
     nasa_news = {}
     nasa_news["news_title"] = news_title
     nasa_news["news_p"]= news_p
 
-    print(nasa_news)
+    # print(nasa_news)
 
     #Visit the url for JPL Featured Space Image here.
     url = 'https://www.jpl.nasa.gov/spaceimages/?search=&category=Mars'
@@ -65,7 +65,7 @@ def scrape():
     # Make sure to save a complete url string for this image.
     featured_image_url = browser.url
 
-    print(featured_image_url)
+    # print(featured_image_url)
 
     # Visit the Mars Weather twitter account
     url = 'https://twitter.com/marswxreport?lang=en'
@@ -80,7 +80,7 @@ def scrape():
     mars_weather = soup.find(class_='js-tweet-text-container').text
 
     # Save the tweet text for the weather report as a variable called mars_weather.
-    print(mars_weather)
+    # print(mars_weather)
 
     # Use Pandas to scrape the table containing facts about the planet including Diameter, Mass, etc.
 
@@ -134,7 +134,7 @@ def scrape():
 
     #grab image url 
     Valles_Marineris = browser.windows.current.url
-    print(Valles_Marineris)
+    # print(Valles_Marineris)
 
     #go back to main window
     browser.windows.current = browser.windows[0]
@@ -166,7 +166,7 @@ def scrape():
 
     #grab image url 
     Cerberus_Hemisphere = browser.windows.current.url
-    print(Cerberus_Hemisphere)
+    # print(Cerberus_Hemisphere)
 
     #go back to main window
     browser.windows.current = browser.windows[0]
@@ -195,7 +195,7 @@ def scrape():
 
     #grab image url 
     Schiaparelli_Hemisphere = browser.windows.current.url
-    print(Schiaparelli_Hemisphere)
+    # print(Schiaparelli_Hemisphere)
 
     #go back to main window
     browser.windows.current = browser.windows[0]
@@ -224,7 +224,7 @@ def scrape():
 
     #grab image url 
     Syrtis_Major = browser.windows.current.url
-    print(Syrtis_Major)
+    # print(Syrtis_Major)
 
     #go back to main window
     browser.windows.current = browser.windows[0]
@@ -253,9 +253,21 @@ def scrape():
     hemisphere_image_urls.append(dict(zip(keys, hem3)))
     hemisphere_image_urls.append(dict(zip(keys, hem4)))
     
-    print (hemisphere_image_urls)
+    # print (hemisphere_image_urls)
 
-    return(hemisphere_image_urls)
+    main_dict = {}
 
-init_browser()
-scrape()
+
+    main_dict['hemispheres'] = hemisphere_image_urls
+    main_dict['twitter_title'] = news_title
+    main_dict['twitter_news'] = news_p
+    main_dict['main_img'] = featured_image_url
+    main_dict['weather'] = mars_weather
+    main_dict['table'] = html_table
+
+    return(main_dict)
+
+    # return(hemisphere_image_urls)
+
+# init_browser()
+# scrape()
